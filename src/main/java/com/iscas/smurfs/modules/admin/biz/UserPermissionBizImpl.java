@@ -1,0 +1,29 @@
+package com.iscas.smurfs.modules.admin.biz;
+
+
+import com.iscas.smurfs.modules.admin.entity.po.UserPermission;
+import com.iscas.smurfs.modules.admin.mapper.UserPermissionMapper;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * description:
+ *
+ * @author 123
+ * @date 2018/9/7
+ */
+
+@Service
+@Transactional
+public class UserPermissionBizImpl extends BaseBizImpl<UserPermissionMapper, UserPermission> implements IUserPermissionBiz{
+
+    @Cacheable
+    @Override
+    public boolean checkUserAndPermission(Integer userid, Long permissionid) {
+        UserPermission userPermission = new UserPermission();
+        userPermission.setPermissionid(permissionid);
+        userPermission.setUserid(userid);
+        return !super.mapper.select(userPermission).isEmpty();
+    }
+}
